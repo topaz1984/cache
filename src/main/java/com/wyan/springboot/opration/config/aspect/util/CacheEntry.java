@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @projectName aic-cores
  * @description: TODO 本地缓存实体类
  * @date 2020/9/19 11:57 上午
- * @company 西南凯亚-DDC-4 PART
  */
 public class CacheEntry implements Serializable {
 

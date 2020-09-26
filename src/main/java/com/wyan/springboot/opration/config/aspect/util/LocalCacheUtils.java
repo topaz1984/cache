@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @projectName opration
  * @description: 本地缓存
  * @date 2020/9/2 15:32
- * @company 西南凯亚
  */
 public  class  LocalCacheUtils {
 

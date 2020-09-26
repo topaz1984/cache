@@ -2,19 +2,9 @@ package com.wyan.springboot.opration.config.aspect.util;
 
 
 
-import com.wyan.springboot.opration.entity.KeyToken;
-import com.wyan.springboot.opration.entity.KeyTokenEnum;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +18,10 @@ import java.util.stream.Collectors;
  * @description: TODO 还需要具体补充解析的模式，暂时按照 有先从":"拆分，开始逐个解析。再对"+"进行拆分，再逐个对"#{}"来解析动态对象参数。
  * 期望：实现key解析："模块:方法:参数1:#{变量1}:参数2#{变量2}....."方式。不传根据参数进行相关压缩处理，生成唯一key。
  * @date 2020/8/26 4:02 下午
- * @company 西南凯亚-DDC-4 PART
  */
 public class AnnotationParamResolver {
-    private static AnnotationParamResolver resolver;
 
+    private static AnnotationParamResolver resolver;
 
     public static AnnotationParamResolver newInstance() {
 
