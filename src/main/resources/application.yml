@@ -1,0 +1,22 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+  application:
+    name: localtest
+    port: 8080
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/security_demo?characterEncoding=utf-8
+    data-username: root
+    data-password: 3EDC4rfv
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
