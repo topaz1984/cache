@@ -33,45 +33,51 @@ public class CacheServiceImpl implements CacheService {
     @Resource
     private RedisTemplate redisTemplate;
 
-    @Override
-    public Object exeCache(DistributeCache cache, ProceedingJoinPoint joinPoint) {
-        Object key = null;
-        Object result = null;
-        AnnotationParamResolver resolverBuss = null;
-        //判断当前key是否有自定义值
-        if ("".equals(cache.key())) {
-            //执行默认key生成 生成规则-> 待补充
-            key = gentKey(joinPoint);
-        } else {
-            resolverBuss = AnnotationParamResolver.newInstance();
-            String spellKey = cache.key();
-            Object[] args = joinPoint.getArgs();
-            for (Object arg : args) {
-                key = resolverBuss.preResolver(joinPoint, spellKey);
-            }
-        }
-
-        //先从缓存中获取但前key的值
-        result = redisTemplate.opsForValue().get(key);
-        //内存有则直接返回，否则执行后台逻辑
-        if (Objects.nonNull(result)) return result;
-        try {
-            result = joinPoint.proceed();//执行原接口中的方法获取结果
-        } catch (Throwable throwable) {
-            //System.out.println("分布式缓存方法中原接口方法执行出错！");
-            logger.error("分布式缓存方法中原接口方法执行出错！！ProxiedClassInfos: {}", joinPoint.getTarget().getClass().getName());
-            throwable.printStackTrace();
-            return null;
-        }
-
-        String sKey = key.toString();
-        redisTemplate.opsForValue().set(sKey, result, cache.distExpireTime(), cache.unit());
-        if (cache.isLocalCache()) {
-            LocalCacheUtils localCache = LocalCacheUtils.getInstance();
-            localCache.putValue(sKey, result, cache.localExpireTime(), cache.unit());
-        }
-        return result;
+  @Override
+  public Object exeCache(DistributeCache cache, ProceedingJoinPoint joinPoint) {
+    Object key = null;
+    Object result = null;
+    AnnotationParamResolver resolverBuss = null;
+    boolean isLocal = cache.isLocalCache();//是否开启本地缓存
+    //判断当前key是否有自定义值
+    if ("".equals(cache.key())) {
+      //执行默认key生成 生成规则-> 待补充
+      key = gentKey(joinPoint);
+    } else {
+      resolverBuss = AnnotationParamResolver.newInstance();
+      String spellKey = cache.key();
+      Object[] args = joinPoint.getArgs();
+      for (Object arg : args) {
+        key = resolverBuss.preResolver(joinPoint, spellKey);
+      }
     }
+
+    //先从缓存中获取当前key的值
+    result = redisTemplate.opsForValue().get(key);
+    //内存有则直接返回，否则执行后台逻辑
+    if (Objects.nonNull(result)) return result;
+    //判断是否配置本地缓存，如果有再执行本地缓存查询
+    if (isLocal) {
+      result =  LocalCacheUtils.getInstance().getValue(cache.key());
+      if (Objects.nonNull(result)) return result;
+    }
+
+    try {
+      result = joinPoint.proceed();//执行原接口中的方法获取结果
+    } catch (Throwable throwable) {
+      //System.out.println("分布式缓存方法中原接口方法执行出错！");
+      logger.error("分布式缓存方法中原接口方法执行出错！！ProxiedClassInfos: {}", joinPoint.getTarget().getClass().getName());
+      throwable.printStackTrace();
+      return null;
+    }
+    //执行分布式缓存存储
+    redisTemplate.opsForValue().set(key, result, cache.distExpireTime(), cache.unit());
+    if (isLocal) {
+      LocalCacheUtils.getInstance().putValue(key.toString(),result,cache.localExpireTime(),cache.unit());
+    }
+    return result;
+  }
+
 
     /**
      * 生成一个key，生成方式按照参数体来以":"来进行拼接
