@@ -23,15 +23,20 @@ public class AnnotationParamResolver {
 
     private static AnnotationParamResolver resolver;
 
-    public static AnnotationParamResolver newInstance() {
-
+  /**
+   * 初始化
+   * @return 解析器实例对象
+   */
+  public static AnnotationParamResolver newInstance() {
+    if (Objects.isNull(resolver)) {
+      synchronized(AnnotationParamResolver.class) {
         if (Objects.isNull(resolver)) {
-            return resolver = new AnnotationParamResolver();
-        } else {
-            return resolver;
+          return resolver = new AnnotationParamResolver();
         }
-
+      }
     }
+    return resolver;
+  }
 
 
     /**
