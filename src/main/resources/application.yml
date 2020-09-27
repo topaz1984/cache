@@ -9,11 +9,11 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/security_demo?characterEncoding=utf-8
     data-username: root
-    data-password: 3EDC4rfv
+    data-password: ******
   redis:
     host: 127.0.0.1
     port: 6379
-    password:
+    password: ******
     lettuce:
       pool:
         max-active: 8
