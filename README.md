@@ -7,7 +7,8 @@
 ## 0.针对场景   
      1.读多写少，且密集型访问的场景或这每次需要聚合一定数据但是更新不频繁的集合数据。   
      2.分布式缓存主要应对集群数一致性的访问，本地缓存防止一定穿透。   
-
+     3.设计初衷是为了解决部分简单查询返回集合的场景中，每个方法都要使用redis模板类来做相似的代码，且定义的key命名五花八门不统一。   
+     
 ## 1.使用样例   
      @DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
      @PostMapping("hello2")   
