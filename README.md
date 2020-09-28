@@ -43,7 +43,7 @@
 
             boolean isOpen() default true;//默认开启分布式缓存   
 
-            ~~boolean globalIsOpen() default true;//全局缓存配置配置 {对整个服务层接口起作用}~~后续补充全局控制功能   
+   ~~boolean globalIsOpen() default true;//全局缓存配置配置 {对整个服务层接口起作用}~~   后续补充全局控制功能
 
             /*
              *本地缓存 预防分布式缓存出现异常或者防止穿透，原则上失效时间大于分布式缓存   
