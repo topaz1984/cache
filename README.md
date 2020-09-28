@@ -17,10 +17,12 @@
    
    
 ## 3.定义参数解析：   
-   >使用格式：@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
-   格式说明：1.格式建议以":"分割，因为适合redis中的结构，且后台程序也是以":"来进行分割   
-             2.自定义参数可以是字符串，可以是请求对象中的只域但是要使用"#{xxx.id}"的格式。举例："#{user.name}" 对应UserInfo user中的name属性   
-             
+   ### 使用格式：   
+       >@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
+   ### 格式说明:      
+       1.格式建议以":"分割，因为适合redis中的结构，且后台程序也是以":"来进行分割     
+       2.自定义参数可以是字符串，可以是请求对象中的只域但是要使用"#{xxx.id}"的格式。举例："#{user.name}" 对应UserInfo user中的name属性      
+   ### 注解类说明：                
    >@Target(ElementType.METHOD)   
    @Retention(RetentionPolicy.RUNTIME)   
    public @interface DistributeCache {   
@@ -42,4 +44,4 @@
       boolean isLocalCache() default false;//是否开启本地缓存   
 
       String describes() default "";//缓存说明   
-}   
+   }   
