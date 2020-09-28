@@ -23,7 +23,7 @@
    
 ## 3.定义参数解析：   
    ### 3.1使用格式：   
-       >@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
+       @DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
        
    ### 3.2格式说明:      
        1.格式建议以":"分割，因为适合redis中的结构，且后台程序也是以":"来进行分割        
