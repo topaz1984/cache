@@ -19,29 +19,31 @@
 ## 3.定义参数解析：   
    ### 3.1使用格式：   
        >@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
+       
    ### 3.2格式说明:      
-       1.格式建议以":"分割，因为适合redis中的结构，且后台程序也是以":"来进行分割     
-       2.自定义参数可以是字符串，可以是请求对象中的只域但是要使用"#{xxx.id}"的格式。举例："#{user.name}" 对应UserInfo user中的name属性      
-   ### 3.3注解类说明：                
-   >@Target(ElementType.METHOD)   
-   @Retention(RetentionPolicy.RUNTIME)   
-   public @interface DistributeCache {   
-      String key() default "";   
+       1.格式建议以":"分割，因为适合redis中的结构，且后台程序也是以":"来进行分割        
+       2.自定义参数可以是字符串，可以是请求对象中的只域但是要使用"#{xxx.id}"的格式。举例："#{user.name}" 对应UserInfo user中的name属性   
+       
+   ### 3.3注解类说明：                   
+         @Target(ElementType.METHOD)   
+         @Retention(RetentionPolicy.RUNTIME)   
+         public @interface DistributeCache {   
+            String key() default "";   
 
-      int distExpireTime() default 5;//默认5分钟   
+            int distExpireTime() default 5;//默认5分钟   
 
-      int localExpireTime() default 10;//本地缓存的默认时间10分钟   
+            int localExpireTime() default 10;//本地缓存的默认时间10分钟   
 
-      TimeUnit unit() default TimeUnit.MINUTES;//默认的time类别为分钟   
+            TimeUnit unit() default TimeUnit.MINUTES;//默认的time类别为分钟   
 
-      boolean isOpen() default true;//默认开启分布式缓存   
+            boolean isOpen() default true;//默认开启分布式缓存   
 
-      boolean globalIsOpen() default true;//全局缓存配置配置 {对整个服务层接口起作用}   
+            boolean globalIsOpen() default true;//全局缓存配置配置 {对整个服务层接口起作用}   
 
-      /*
-       *本地缓存 预防分布式缓存出现异常或者防止穿透，原则上失效时间大于分布式缓存   
-      */
-      boolean isLocalCache() default false;//是否开启本地缓存   
+            /*
+             *本地缓存 预防分布式缓存出现异常或者防止穿透，原则上失效时间大于分布式缓存   
+            */
+            boolean isLocalCache() default false;//是否开启本地缓存   
 
-      String describes() default "";//缓存说明   
-   }   
+            String describes() default "";//缓存说明   
+         }   
