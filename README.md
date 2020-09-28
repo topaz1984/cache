@@ -5,11 +5,11 @@
 
 
 ## 1.使用样例
-   >@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
-    @PostMapping("hello2")   
-    public String hello2(UserInfo user) {   
-      return String.format("Hello %s!", user.getName());   
-    }     
+    >@DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
+     @PostMapping("hello2")   
+     public String hello2(UserInfo user) {   
+       return String.format("Hello %s!", user.getName());   
+     }     
     
     
 ## 2.说明：   
