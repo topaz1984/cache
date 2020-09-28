@@ -1,10 +1,14 @@
 # **cache分布式缓存+本地二级缓存**   
+
 ## **缓存实现原理:**      
       通过AOP+自定义注解+反射+redis+concurrentHashMap来实现，分布式为第一层缓存，本地为二级缓存，原则上本地的时间要长于分布式缓存，一定程度上解决缓存穿透的问题。   
       本地缓存中通过concurrentHashMap本身分段锁和线程安全的特性，再加上LinkedHashMap来进行Lru的缓存清除策略。后续会补充相关定时删除过期数据的方法。   
+      
+## 0.针对场景   
+     1.读多写少，且密集型访问的场景或这每次需要聚合一定数据但是更新不频繁的集合数据。   
+     2.分布式缓存主要应对集群数一致性的访问，本地缓存防止一定穿透。   
 
-
-## 1.使用样例
+## 1.使用样例   
      @DistributeCache(key= "agent:monitor:test:"+"#{user.name}:#{user.id}",isLocalCache = true,distExpireTime = 5,localExpireTime = 10,unit = TimeUnit.MINUTES)   
      @PostMapping("hello2")   
      public String hello2(UserInfo user) {   
