@@ -3,8 +3,7 @@
 ## **缓存实现原理:**      
       通过AOP+自定义注解+反射+redis+concurrentHashMap来实现，分布式为第一层缓存，本地为二级缓存，原则上本地的时间要长于分布式缓存，一定程度上解决缓存穿透的问题。   
       本地缓存中通过concurrentHashMap本身分段锁和线程安全的特性，再加上LinkedList来进行LRU的缓存清除策略。后续会补充相关定时删除过期数据的方法。   
-   ![图1 缓存执行流程](https://github.com/topaz1984/cache/blob/master/%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B.png ''执行流程'')
-      
+![缓存执行流程](https://raw.githubusercontent.com/topaz1984/cache/master/%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B.png)     
       
 ## 0.针对场景   
      1.读多写少，且密集型访问的场景或这每次需要聚合一定数据但是更新不频繁的集合数据。   
